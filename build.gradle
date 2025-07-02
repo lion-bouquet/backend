@@ -1,0 +1,82 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.5.3'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'kr.ac.kumoh.likelion'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// Web
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+	// Database
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+
+	// Lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// Security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+	// Swagger
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9'
+
+	// QueryDSL
+	implementation 'io.github.openfeign.querydsl:querydsl-core:6.11'
+	implementation 'io.github.openfeign.querydsl:querydsl-jpa:6.11'
+	annotationProcessor 'io.github.openfeign.querydsl:querydsl-apt:6.11:jpa'
+
+	// Configuration
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+	// Test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testRuntimeOnly 'com.h2database:h2'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+def querydslDir = layout.buildDirectory.dir("generated/querydsl").get().asFile
+
+sourceSets {
+	main {
+		java {
+			srcDirs += querydslDir
+		}
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	options.generatedSourceOutputDirectory = querydslDir
+}
+
+clean {
+	delete querydslDir
+}
