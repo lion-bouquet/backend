@@ -1,16 +1,15 @@
 services:
   mariadb:
-    container_name: mariadb
-    image: mariadb:latest
+    container_name: mysql
+    image: mysql:8
     ports:
-      - 3306:3306
+      - 3310:3306
     environment:
-      MARIADB_DATABASE: bouquet
-      MARIADB_ROOT_PASSWORD: "like_Lion-bouQuet6^"
+      MYSQL_DATABASE: bouquet
+      MYSQL_ROOT_PASSWORD: "like_Lion-bouQuet6^"
+      MYSQL_CHARSET: utf8mb4
+      MYSQL_COLLATION: utf8mb4_unicode_ci
       TZ: Asia/Seoul
-    command:
-      - --character-set-server=utf8mb4
-      - --collation-server=utf8mb4_unicode_ci
     volumes:
-      - ./docker-infra/mariadb/data:/var/lib/mariadb
-      - ./docker-infra/mariadb/config:/etc/mysql/conf.d
+      - ./docker-infra/mysql/data:/var/lib/mysql
+      - ./docker-infra/mysql/config:/etc/mysql/conf.d
