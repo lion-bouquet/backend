@@ -1,6 +1,7 @@
 package kr.ac.kumoh.likelion.bouquet.global.config.security;
 
 import kr.ac.kumoh.likelion.bouquet.global.jwt.filter.JwtAuthenticationFilter;
+import kr.ac.kumoh.likelion.bouquet.global.oauth.HttpCookieOAuth2AuthorizationRequestRepository;
 import kr.ac.kumoh.likelion.bouquet.global.oauth.handler.OAuth2AuthenticationFailureHandler;
 import kr.ac.kumoh.likelion.bouquet.global.oauth.handler.OAuth2AuthenticationSuccessHandler;
 import kr.ac.kumoh.likelion.bouquet.global.oauth.service.CustomOAuth2UserService;
@@ -25,6 +26,7 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     private final CustomOAuth2UserService customOAuth2UserService;
+    private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
     private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
     private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
 
@@ -48,6 +50,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(CorsConfig.corsConfigurationSource()))
 
                 .oauth2Login(oauth2 -> oauth2
+                        .authorizationEndpoint(c -> c.authorizationRequestRepository(httpCookieOAuth2AuthorizationRequestRepository))
                         .userInfoEndpoint(c -> c.userService(customOAuth2UserService))
                         .successHandler(oAuth2AuthenticationSuccessHandler)
                         .failureHandler(oAuth2AuthenticationFailureHandler))

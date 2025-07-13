@@ -20,12 +20,13 @@ spring:
   jpa:
     properties:
       hibernate:
-        hbm2ddl.auto: create-drop
         show-sql: true
         format_sql: false
         highlight_sql: true
         default_batch_fetch_size: 100
     open-in-view: false
+    hibernate:
+      ddl-auto: create
   security:
     oauth2:
       client:
@@ -33,9 +34,7 @@ spring:
           github:
             client-id: ${OAUTH2_GITHUB_CLIENT_ID}
             client-secret: ${OAUTH2_GITHUBCLIENT_SECRET}
-            scope:
-              - user:email
-              - read:user
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
 
 jwt:
   salt: ${JWT_SALT}

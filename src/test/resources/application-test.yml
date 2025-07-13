@@ -1,0 +1,40 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test;MODE=MySQL;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      repositories:
+        enabled: false
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: 1234567890
+            client-secret: 1234567890
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+
+jwt:
+  salt: 01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567
+  access-token-expired-in: 600
+  refresh-token-expired-in: 1209600
+
+logging:
+  level:
+    org.springframework.web.servlet: debug
+    org.hibernate.SQL: debug
+    org.hibernate.orm.jdbc.bind: trace
+    org.hibernate.orm.jdb.extract: trace
+    org.hibernate.type.descriptor.sql: trace
