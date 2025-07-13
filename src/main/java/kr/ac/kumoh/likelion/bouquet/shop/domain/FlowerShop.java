@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
@@ -13,7 +12,6 @@ public class FlowerShop {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "shop_id")
     private Long id;
 
     @Column(nullable = false, unique = true, length = 50)
@@ -37,7 +35,9 @@ public class FlowerShop {
     @Lob
     private String introduction;
 
-    @Column(nullable = false)
-    @ColumnDefault("0.0")
     private Double rating = 0.0;
+
+    // 영업 시간 필드
+    private String openingHoursWeekdays; // 예: "09:00 - 18:00"
+    private String openingHoursWeekend;  // 예: "10:00 - 17:00"
 }

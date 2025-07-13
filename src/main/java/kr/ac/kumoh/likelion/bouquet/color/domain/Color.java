@@ -12,7 +12,6 @@ public class Color {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "color_id")
     private Long id;
 
     @Column(nullable = false, unique = true, length = 20)

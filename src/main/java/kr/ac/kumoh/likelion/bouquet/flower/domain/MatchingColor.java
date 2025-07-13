@@ -1,8 +1,7 @@
-package kr.ac.kumoh.likelion.bouquet.matchingcolor.domain;
+package kr.ac.kumoh.likelion.bouquet.flower.domain;
 
 import jakarta.persistence.*;
 import kr.ac.kumoh.likelion.bouquet.color.domain.Color;
-import kr.ac.kumoh.likelion.bouquet.flower.domain.Flower;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +13,6 @@ public class MatchingColor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "matching_color_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
