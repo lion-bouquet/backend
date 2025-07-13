@@ -2,25 +2,45 @@ spring:
   config:
     activate:
       on-profile: dev
+    import: optional:file:.env[.properties]
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/bouquet
     username: bouquet
     password: "like_Lion-bouQuet6^"
-    data:
-      web:
-        pageable:
-          one-indexed-parameters:
-            true
-    jpa:
-      properties:
-        hibernate:
-          ddl-auto: create
-          show-sql: true
-          format_sql: false
-          highlight_sql: true
-          open-in-view: false
-          default_batch_fetch_size: 100
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+    redis:
+      host: localhost
+      port: 6379
+      repositories:
+        enabled: false
+  jpa:
+    properties:
+      hibernate:
+        hbm2ddl.auto: create-drop
+        show-sql: true
+        format_sql: false
+        highlight_sql: true
+        default_batch_fetch_size: 100
+    open-in-view: false
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: ${OAUTH2_GITHUB_CLIENT_ID}
+            client-secret: ${OAUTH2_GITHUBCLIENT_SECRET}
+            scope:
+              - user:email
+              - read:user
+
+jwt:
+  salt: ${JWT_SALT}
+  access-token-expired-in: 600
+  refresh-token-expired-in: 1209600
 
 logging:
   level:
