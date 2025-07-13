@@ -39,4 +39,4 @@ out/
 ### Docker Infra ###
 docker-infra/
 
-*.env
+.env
