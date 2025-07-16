@@ -26,10 +26,15 @@ spring:
             client-secret: 1234567890
             redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
 
-jwt:
-  salt: 01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567
-  access-token-expired-in: 600
-  refresh-token-expired-in: 1209600
+app:
+  frontend:
+    base-uri: "http://localhost:3000"
+    authorized-redirect-uri: "http://localhost:3000/login/callback"
+  backend:
+    jwt:
+      salt: 01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567
+      access-token-expired-in: 600
+      refresh-token-expired-in: 1209600
 
 logging:
   level:
