@@ -2,14 +2,14 @@ package kr.ac.kumoh.likelion.bouquet.global.oauth.user;
 
 import java.util.Map;
 
-public class GithubOAuth2UserInfo extends OAuth2UserInfo {
-    public GithubOAuth2UserInfo(String accessToken, Map<String, Object> attributes) {
-        super(OAuth2Provider.GITHUB, accessToken, attributes);
+public class GoogleOAuth2UserInfo extends OAuth2UserInfo {
+    public GoogleOAuth2UserInfo(String accessToken, Map<String, Object> attributes) {
+        super(OAuth2Provider.GOOGLE, accessToken, attributes);
     }
 
     @Override
     public String getId() {
-        return ((Integer) attributes.get("id")).toString();
+        return (String) attributes.get("sub");
     }
 
     @Override
@@ -24,6 +24,6 @@ public class GithubOAuth2UserInfo extends OAuth2UserInfo {
 
     @Override
     public String getImageUrl() {
-        return (String) attributes.get("avatar_url");
+        return (String) attributes.get("picture");
     }
 }

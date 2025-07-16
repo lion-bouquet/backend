@@ -1,7 +1,7 @@
 package kr.ac.kumoh.likelion.bouquet.global.oauth.user;
 
 public enum OAuth2Provider {
-    GITHUB("github");
+    GOOGLE("google");
 
     private final String registrationId;
 
