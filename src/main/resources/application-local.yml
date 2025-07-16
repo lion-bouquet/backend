@@ -39,10 +39,15 @@ spring:
               - email
               - profile
 
-jwt:
-  salt: ${JWT_SALT}
-  access-token-expired-in: 600
-  refresh-token-expired-in: 1209600
+app:
+  frontend:
+    base-uri: "http://localhost:3000"
+    authorized-redirect-uri: "http://localhost:3000/login/callback"
+  backend:
+    jwt:
+      salt: ${JWT_SALT}
+      access-token-expired-in: 600
+      refresh-token-expired-in: 1209600
 
 logging:
   level:

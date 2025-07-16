@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "jwt")
+@ConfigurationProperties(prefix = "app.backend.jwt")
 public class JwtProperties {
     private String salt;
     private int accessTokenExpiredIn;

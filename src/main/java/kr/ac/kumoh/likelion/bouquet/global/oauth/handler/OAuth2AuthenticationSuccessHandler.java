@@ -3,17 +3,15 @@ package kr.ac.kumoh.likelion.bouquet.global.oauth.handler;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import kr.ac.kumoh.likelion.bouquet.global.jwt.token.access.AccessTokenProvider;
-import kr.ac.kumoh.likelion.bouquet.global.jwt.token.refresh.RefreshTokenProvider;
 import kr.ac.kumoh.likelion.bouquet.global.oauth.HttpCookieOAuth2AuthorizationRequestRepository;
 import kr.ac.kumoh.likelion.bouquet.global.oauth.service.OAuth2UserPrincipal;
 import kr.ac.kumoh.likelion.bouquet.global.oauth.user.OAuth2Provider;
 import kr.ac.kumoh.likelion.bouquet.global.oauth.user.OAuth2UserInfo;
 import kr.ac.kumoh.likelion.bouquet.global.utils.CookieUtils;
-import kr.ac.kumoh.likelion.bouquet.token.repository.RefreshTokenRepository;
 import kr.ac.kumoh.likelion.bouquet.token.repository.TokenCodeRepository;
 import kr.ac.kumoh.likelion.bouquet.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import kr.ac.kumoh.likelion.bouquet.user.domain.User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -25,16 +23,27 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Component
-@RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-    private static final String REDIRECT_URI_PARAM_COOKIE_NAME = "redirect-uri";
     private static final String MODE_PARAM_COOKIE_NAME = "mode";
     private static final String LOGIN_MODE = "login";
     private static final String LOGIN_FAILED_ERROR_MESSAGE = "login_failed";
 
+    private final String authorizedRedirectUri;
+
     private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
     private final UserRepository userRepository;
     private final TokenCodeRepository tokenCodeRepository;
+
+    public OAuth2AuthenticationSuccessHandler(@Value("${app.frontend.authorized-redirect-uri}") String authorizedRedirectUri,
+                                              HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository,
+                                              UserRepository userRepository,
+                                              TokenCodeRepository tokenCodeRepository) {
+        this.authorizedRedirectUri = authorizedRedirectUri;
+        this.httpCookieOAuth2AuthorizationRequestRepository = httpCookieOAuth2AuthorizationRequestRepository;
+        this.userRepository = userRepository;
+        this.tokenCodeRepository = tokenCodeRepository;
+    }
+
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -65,9 +74,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     }
 
     private String getTargetUrl(HttpServletRequest request) {
-        return CookieUtils.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
-                .map(Cookie::getValue)
-                .orElse(getDefaultTargetUrl());
+        return authorizedRedirectUri;
     }
 
     private String getMode(HttpServletRequest request) {
