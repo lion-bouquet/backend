@@ -2,4 +2,4 @@ spring:
   application:
     name: bouquet
   profiles:
-    active: dev
+    active: local
