@@ -115,6 +115,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
                 .providerId(userInfo.getId())
                 .email(userInfo.getEmail())
                 .name(userInfo.getName())
+                .profileImageUrl(userInfo.getImageUrl())
                 .build();
 
         return userRepository.save(user);

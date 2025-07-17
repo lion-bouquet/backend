@@ -1,5 +1,6 @@
 package kr.ac.kumoh.likelion.bouquet.shop.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import kr.ac.kumoh.likelion.bouquet.shop.dto.ShopDetailResponse;
 import kr.ac.kumoh.likelion.bouquet.shop.dto.ShopSummaryResponse;
 import kr.ac.kumoh.likelion.bouquet.shop.service.ShopService;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "꽃집")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/shops")

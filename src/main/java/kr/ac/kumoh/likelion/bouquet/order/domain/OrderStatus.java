@@ -1,4 +1,4 @@
-package kr.ac.kumoh.likelion.bouquet.stock.domain;
+package kr.ac.kumoh.likelion.bouquet.order.domain;
 
 public enum OrderStatus {
     WAIT,           // 주문 대기

@@ -1,5 +1,6 @@
 package kr.ac.kumoh.likelion.bouquet.flower.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import kr.ac.kumoh.likelion.bouquet.color.dto.ColorResponse;
 import kr.ac.kumoh.likelion.bouquet.flower.dto.FlowerDetailResponse;
 import kr.ac.kumoh.likelion.bouquet.flower.dto.FlowerSummaryResponse;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "꽃")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/flowers")
