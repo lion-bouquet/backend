@@ -9,6 +9,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import kr.ac.kumoh.likelion.bouquet.stock.domain.Stock;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,4 +33,12 @@ public class OrderDetail {
     private Integer unitPrice;
 
     private Integer quantity;
+
+    @Builder
+    public OrderDetail(Order order, Stock stock, Integer unitPrice, Integer quantity) {
+        this.order = order;
+        this.stock = stock;
+        this.unitPrice = unitPrice;
+        this.quantity = quantity;
+    }
 }

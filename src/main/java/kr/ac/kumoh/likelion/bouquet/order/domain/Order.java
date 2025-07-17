@@ -11,8 +11,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import kr.ac.kumoh.likelion.bouquet.shop.domain.FlowerShop;
 import kr.ac.kumoh.likelion.bouquet.user.domain.User;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,7 +34,9 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private Long flowerShop;
+    @ManyToOne
+    @JoinColumn(name = "shop_id")
+    private FlowerShop shop;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
@@ -43,4 +47,25 @@ public class Order {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderDetail> orderDetails;
+
+    @Builder
+    public Order(User user, FlowerShop shop, OrderStatus status, LocalDateTime orderDate, Long totalPrice) {
+        this.user = user;
+        this.shop = shop;
+        this.status = status;
+        this.orderDate = orderDate;
+        this.totalPrice = totalPrice;
+    }
+
+    public boolean isCancellable() {
+        return this.status == OrderStatus.WAIT;
+    }
+
+    public void cancel() {
+        this.status = OrderStatus.CANCEL;
+    }
+
+    public void plusTotalPrice(long price) {
+        this.totalPrice += price;
+    }
 }
