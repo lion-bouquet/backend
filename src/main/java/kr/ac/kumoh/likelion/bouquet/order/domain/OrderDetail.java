@@ -1,4 +1,4 @@
-package kr.ac.kumoh.likelion.bouquet.stock.domain;
+package kr.ac.kumoh.likelion.bouquet.order.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import kr.ac.kumoh.likelion.bouquet.order.domain.Order;
+import kr.ac.kumoh.likelion.bouquet.stock.domain.Stock;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

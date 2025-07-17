@@ -11,8 +11,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import kr.ac.kumoh.likelion.bouquet.stock.domain.OrderDetail;
-import kr.ac.kumoh.likelion.bouquet.stock.domain.OrderStatus;
 import kr.ac.kumoh.likelion.bouquet.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Getter;
