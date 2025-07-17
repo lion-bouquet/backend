@@ -1,6 +1,7 @@
 package kr.ac.kumoh.likelion.bouquet.shop.service;
 
-import kr.ac.kumoh.likelion.bouquet.exception.NotFoundException;
+import kr.ac.kumoh.likelion.bouquet.global.base.exception.ErrorCode;
+import kr.ac.kumoh.likelion.bouquet.global.base.exception.ServiceException;
 import kr.ac.kumoh.likelion.bouquet.shop.domain.FlowerShop;
 import kr.ac.kumoh.likelion.bouquet.shop.dto.ShopDetailResponse;
 import kr.ac.kumoh.likelion.bouquet.shop.dto.ShopSummaryResponse;
@@ -49,7 +50,7 @@ public class ShopService {
      */
     public ShopDetailResponse findShopById(Long shopId) {
         FlowerShop shop = shopRepository.findById(shopId)
-                .orElseThrow(() -> new NotFoundException("해당 꽃집을 찾을 수 없습니다. ID: " + shopId));
+                .orElseThrow(() -> new ServiceException(ErrorCode.SHOP_NOT_FOUND));
 
         // TODO: 추후 리뷰 기능이 구현되면 reviewRepository를 통해 실제 리뷰 개수를 조회해야 합니다.
         int reviewCount = 0;

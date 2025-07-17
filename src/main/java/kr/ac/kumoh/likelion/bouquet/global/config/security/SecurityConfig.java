@@ -1,5 +1,6 @@
 package kr.ac.kumoh.likelion.bouquet.global.config.security;
 
+import kr.ac.kumoh.likelion.bouquet.global.base.exception.ExceptionHandlerFilter;
 import kr.ac.kumoh.likelion.bouquet.global.jwt.filter.JwtAuthenticationFilter;
 import kr.ac.kumoh.likelion.bouquet.global.oauth.HttpCookieOAuth2AuthorizationRequestRepository;
 import kr.ac.kumoh.likelion.bouquet.global.oauth.handler.OAuth2AuthenticationFailureHandler;
@@ -23,6 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    private final ExceptionHandlerFilter exceptionHandlerFilter;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     private final CustomOAuth2UserService customOAuth2UserService;
@@ -45,6 +47,7 @@ public class SecurityConfig {
                 .rememberMe(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
 
+                .addFilterBefore(exceptionHandlerFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 
                 .cors(cors -> cors.configurationSource(CorsConfig.corsConfigurationSource()))
