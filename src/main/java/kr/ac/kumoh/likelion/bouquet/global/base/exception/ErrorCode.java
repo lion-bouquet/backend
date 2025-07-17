@@ -30,7 +30,14 @@ public enum ErrorCode {
     FLOWER_NOT_FOUND(NOT_FOUND, "FLOWER_001", "해당 꽃을 찾을 수 없습니다."),
 
     // Shop
-    SHOP_NOT_FOUND(NOT_FOUND, "SHOP_001", "해당 꽃집을 찾을 수 없습니다.")
+    SHOP_NOT_FOUND(NOT_FOUND, "SHOP_001", "해당 꽃집을 찾을 수 없습니다."),
+
+    // Order
+    ORDER_NOT_FOUND(NOT_FOUND, "ORDER_001", "해당 주문을 찾을 수 없습니다."),
+
+    // Stock
+    SHOP_ID_MISMATCH(CONFLICT, "STOCK_001", "주문한 꽃집에서 판매하는 상품이 아닙니다."),
+    STOCK_NOT_AVAILABLE(CONFLICT, "STOCK_002", "해당 상품은 현재 구매할 수 없습니다.")
 
     ;
 

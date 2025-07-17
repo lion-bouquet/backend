@@ -12,7 +12,6 @@ import kr.ac.kumoh.likelion.bouquet.global.base.exception.ErrorCode;
 import kr.ac.kumoh.likelion.bouquet.global.config.swagger.SwaggerApiFailedResponse;
 import kr.ac.kumoh.likelion.bouquet.global.config.swagger.SwaggerApiResponses;
 import kr.ac.kumoh.likelion.bouquet.global.config.swagger.SwaggerApiSuccessResponse;
-import kr.ac.kumoh.likelion.bouquet.global.jwt.annotation.CurrentUserId;
 import kr.ac.kumoh.likelion.bouquet.token.dto.request.TokenCodeRequest;
 import kr.ac.kumoh.likelion.bouquet.token.dto.request.TokenRequest;
 import kr.ac.kumoh.likelion.bouquet.token.dto.response.TokenResponse;
