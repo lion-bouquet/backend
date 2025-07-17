@@ -55,7 +55,7 @@ logging:
 
 swagger:
   server-url: https://likelion.patulus.com
-  description: "멋쟁이사자처럼 대학 13기 금오공대 교내 해커톤 4팀 API"
+  description: "꽃길 API"
 
 springdoc:
   packagesToScan: kr.ac.kumoh.likelion.bouquet
