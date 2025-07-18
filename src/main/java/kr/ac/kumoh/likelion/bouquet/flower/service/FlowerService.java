@@ -1,13 +1,14 @@
 package kr.ac.kumoh.likelion.bouquet.flower.service;
 
 import kr.ac.kumoh.likelion.bouquet.color.dto.ColorResponse;
-import kr.ac.kumoh.likelion.bouquet.exception.NotFoundException;
 import kr.ac.kumoh.likelion.bouquet.flower.domain.Flower;
 import kr.ac.kumoh.likelion.bouquet.flower.dto.FlowerCreateRequest;
 import kr.ac.kumoh.likelion.bouquet.flower.dto.FlowerDetailResponse;
 import kr.ac.kumoh.likelion.bouquet.flower.dto.FlowerSummaryResponse;
 import kr.ac.kumoh.likelion.bouquet.flower.repository.FlowerRepository;
 import kr.ac.kumoh.likelion.bouquet.flower.repository.MatchingColorRepository;
+import kr.ac.kumoh.likelion.bouquet.global.base.exception.ErrorCode;
+import kr.ac.kumoh.likelion.bouquet.global.base.exception.ServiceException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +35,7 @@ public class FlowerService {
 
     public FlowerDetailResponse findFlowerById(Long flowerId) {
         Flower flower = flowerRepository.findById(flowerId)
-                .orElseThrow(() -> new NotFoundException("해당 꽃을 찾을 수 없습니다. ID: " + flowerId));
+                .orElseThrow(() -> new ServiceException(ErrorCode.FLOWER_NOT_FOUND));
 
         // 해당 꽃과 매칭되는 색상 정보 조회
         List<ColorResponse> matchingColors = findMatchingColorsByFlowerId(flowerId);
@@ -44,7 +45,7 @@ public class FlowerService {
 
     public List<ColorResponse> findMatchingColorsByFlowerId(Long flowerId) {
         if (!flowerRepository.existsById(flowerId)) {
-            throw new NotFoundException("해당 꽃을 찾을 수 없습니다. ID: " + flowerId);
+            throw new ServiceException(ErrorCode.FLOWER_NOT_FOUND);
         }
 
         return matchingColorRepository.findByFlower_Id(flowerId).stream()

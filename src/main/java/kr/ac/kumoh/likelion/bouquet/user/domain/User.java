@@ -37,14 +37,17 @@ public class User {
 
     private String email;
 
+    private String profileImageUrl;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
 
     @Builder
-    public User(OAuth2Provider provider, String providerId, String name, String email) {
+    public User(OAuth2Provider provider, String providerId, String name, String email, String profileImageUrl) {
         this.provider = provider;
         this.providerId = providerId;
         this.name = name;
         this.email = email;
+        this.profileImageUrl = profileImageUrl;
     }
 }

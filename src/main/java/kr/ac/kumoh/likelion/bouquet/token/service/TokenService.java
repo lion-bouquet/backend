@@ -69,4 +69,21 @@ public class TokenService {
 
         return new TokenResponse(newAccessToken.token(), newRefreshToken.token());
     }
+
+    public void signOut(TokenRequest token) {
+        // 만료된 액세스 토큰에서 사용자 정보를 추출합니다.
+        JwtClaims claims = accessTokenProvider.getClaims(token.accessToken())
+                .orElseThrow(() -> new ServiceException(ErrorCode.JWT_INVALID));
+
+        // 요청으로 온 리프레시 토큰을 Redis에서 가져옵니다.
+        RefreshTokenData savedRefreshToken = refreshTokenRepository.findById(token.refreshToken())
+                .orElseThrow(() -> new ServiceException(ErrorCode.JWT_EXPIRED));
+
+        // 요청한 사용자 정보와 Redis에 저장된 리프레시 토큰의 사용자 정보가 일치하는지 확인합니다.
+        if (!claims.userId().equals(savedRefreshToken.userId())) {
+            throw new ServiceException(ErrorCode.JWT_INVALID);
+        }
+
+        refreshTokenRepository.deleteById(token.refreshToken());
+    }
 }
