@@ -32,11 +32,10 @@ public class FlowerRepositoryCustomImpl implements FlowerRepositoryCustom {
     }
 
     private BooleanExpression colorIdEq(Long colorId) {
-        if (colorId == null) {
-            return null;
-        }
         // 서브쿼리를 사용하여 특정 colorId를 가진 꽃의 ID 목록을 찾고, 해당 ID를 가진 꽃들을 필터링
-        return flower.id.in(
+        return colorId == null
+                ? null
+                : flower.id.in(
                 queryFactory
                         .select(matchingColor.flower.id)
                         .from(matchingColor)
@@ -49,11 +48,11 @@ public class FlowerRepositoryCustomImpl implements FlowerRepositoryCustom {
             return null;
         }
 
-        // seasonStart와 seasonEnd 필드에서 '월'을 제거하고 숫자로 변환
+        // HQL에서 지원하는 substring() + cast(as integer) 사용
         NumberTemplate<Integer> startMonth = Expressions.numberTemplate(Integer.class,
-                "function('cast', function('replace', {0}, '월', '') as int)", flower.seasonStart);
-        NumberTemplate<Integer> endMonth = Expressions.numberTemplate(Integer.class,
-                "function('cast', function('replace', {0}, '월', '') as int)", flower.seasonEnd);
+                "cast(substring({0},1,2) as integer)", flower.seasonStart);
+        NumberTemplate<Integer> endMonth   = Expressions.numberTemplate(Integer.class,
+                "cast(substring({0},1,2) as integer)", flower.seasonEnd);
 
         // 시작 월 <= 종료 월 (예: 3월 ~ 5월)
         BooleanExpression normalRange = startMonth.loe(endMonth)
@@ -63,11 +62,9 @@ public class FlowerRepositoryCustomImpl implements FlowerRepositoryCustom {
         BooleanExpression crossYearRange = startMonth.gt(endMonth)
                 .and(startMonth.loe(month).or(endMonth.goe(month)));
 
-        // seasonStart 또는 seasonEnd가 비어있지 않은 경우에만 필터링
+        // seasonStart/End 널·빈 문자열 아닌 것만 필터
         return flower.seasonStart.isNotNull()
-                .and(flower.seasonStart.isNotEmpty())
                 .and(flower.seasonEnd.isNotNull())
-                .and(flower.seasonEnd.isNotEmpty())
                 .and(normalRange.or(crossYearRange));
     }
 }
