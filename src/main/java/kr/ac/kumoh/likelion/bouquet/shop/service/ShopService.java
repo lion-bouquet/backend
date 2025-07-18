@@ -1,6 +1,7 @@
 package kr.ac.kumoh.likelion.bouquet.shop.service;
 
-import kr.ac.kumoh.likelion.bouquet.exception.NotFoundException;
+import kr.ac.kumoh.likelion.bouquet.global.base.exception.ErrorCode;
+import kr.ac.kumoh.likelion.bouquet.global.base.exception.ServiceException;
 import kr.ac.kumoh.likelion.bouquet.review.repository.ReviewRepository;
 import kr.ac.kumoh.likelion.bouquet.shop.domain.FlowerShop;
 import kr.ac.kumoh.likelion.bouquet.shop.dto.ShopCreateRequest;
@@ -51,7 +52,7 @@ public class ShopService {
 
     public ShopDetailResponse findShopById(Long shopId) {
         FlowerShop shop = shopRepository.findById(shopId)
-                .orElseThrow(() -> new NotFoundException("해당 꽃집을 찾을 수 없습니다. ID: " + shopId));
+                .orElseThrow(() -> new ServiceException(ErrorCode.SHOP_NOT_FOUND));
 
         // reviewRepository를 통해 실제 리뷰 개수를 조회
         long reviewCount = reviewRepository.countByFlowerShop(shopId);
@@ -111,7 +112,7 @@ public class ShopService {
         }
     }
 
-    @Transactional // 데이터를 변경하므로 @Transactional을 붙여줍니다.
+    @Transactional
     public void createShop(ShopCreateRequest request) {
         FlowerShop shop = request.toEntity(); // DTO를 Entity로 변환
         shopRepository.save(shop);
