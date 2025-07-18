@@ -55,7 +55,7 @@ public class ShopService {
                 .orElseThrow(() -> new ServiceException(ErrorCode.SHOP_NOT_FOUND));
 
         // reviewRepository를 통해 실제 리뷰 개수를 조회
-        long reviewCount = reviewRepository.countByFlowerShop(shopId);
+        long reviewCount = reviewRepository.countByShop(shop);
 
         return ShopDetailResponse.builder()
                 .id(shop.getId())
