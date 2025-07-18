@@ -41,7 +41,10 @@ public class ReviewService {
                 .createdAt(LocalDateTime.now())
                 .build();
 
+        shop.getReviews().add(review);
         reviewRepository.save(review);
+
+        shop.recalculateRating();
 
         return ReviewResponse.from(review);
     }

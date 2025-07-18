@@ -9,5 +9,5 @@ import java.util.List;
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     List<Review> findByShop(FlowerShop shop);
 
-    long countByShop(FlowerShop shop);
+    int countByShop(FlowerShop shop);
 }
