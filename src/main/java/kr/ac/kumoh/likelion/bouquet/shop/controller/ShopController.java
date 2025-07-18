@@ -1,9 +1,11 @@
 package kr.ac.kumoh.likelion.bouquet.shop.controller;
 
+import kr.ac.kumoh.likelion.bouquet.shop.dto.ShopCreateRequest;
 import kr.ac.kumoh.likelion.bouquet.shop.dto.ShopDetailResponse;
 import kr.ac.kumoh.likelion.bouquet.shop.dto.ShopSummaryResponse;
 import kr.ac.kumoh.likelion.bouquet.shop.service.ShopService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,5 +28,11 @@ public class ShopController {
     public ResponseEntity<ShopDetailResponse> getShopDetail(@PathVariable Long shopId) {
         ShopDetailResponse shop = shopService.findShopById(shopId);
         return ResponseEntity.ok(shop);
+    }
+
+    @PostMapping
+    public ResponseEntity<Void> createShop(@RequestBody ShopCreateRequest request) {
+        shopService.createShop(request);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

@@ -3,6 +3,7 @@ package kr.ac.kumoh.likelion.bouquet.flower.service;
 import kr.ac.kumoh.likelion.bouquet.color.dto.ColorResponse;
 import kr.ac.kumoh.likelion.bouquet.exception.NotFoundException;
 import kr.ac.kumoh.likelion.bouquet.flower.domain.Flower;
+import kr.ac.kumoh.likelion.bouquet.flower.dto.FlowerCreateRequest;
 import kr.ac.kumoh.likelion.bouquet.flower.dto.FlowerDetailResponse;
 import kr.ac.kumoh.likelion.bouquet.flower.dto.FlowerSummaryResponse;
 import kr.ac.kumoh.likelion.bouquet.flower.repository.FlowerRepository;
@@ -23,8 +24,8 @@ public class FlowerService {
     private final MatchingColorRepository matchingColorRepository;
 
     public List<FlowerSummaryResponse> findFlowers(Long colorId, Integer month) {
-        // TODO: colorId와 month에 따른 동적 쿼리 로직 구현 (현재는 전체 조회)
-        List<Flower> flowers = flowerRepository.findAll();
+        // colorId와 month에 따른 동적 쿼리 로직으로 변경
+        List<Flower> flowers = flowerRepository.findFlowersByCriteria(colorId, month);
 
         return flowers.stream()
                 .map(this::mapToFlowerSummaryResponse)
@@ -52,6 +53,12 @@ public class FlowerService {
                         .name(matchingColor.getColor().getName())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void createFlower(FlowerCreateRequest request) {
+        Flower flower = request.toEntity(); // DTO를 Entity로 변환
+        flowerRepository.save(flower);
     }
 
 

@@ -1,10 +1,12 @@
 package kr.ac.kumoh.likelion.bouquet.flower.controller;
 
 import kr.ac.kumoh.likelion.bouquet.color.dto.ColorResponse;
+import kr.ac.kumoh.likelion.bouquet.flower.dto.FlowerCreateRequest;
 import kr.ac.kumoh.likelion.bouquet.flower.dto.FlowerDetailResponse;
 import kr.ac.kumoh.likelion.bouquet.flower.dto.FlowerSummaryResponse;
 import kr.ac.kumoh.likelion.bouquet.flower.service.FlowerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,5 +37,11 @@ public class FlowerController {
     public ResponseEntity<List<ColorResponse>> getMatchingColors(@PathVariable Long flowerId) {
         List<ColorResponse> colors = flowerService.findMatchingColorsByFlowerId(flowerId);
         return ResponseEntity.ok(colors);
+    }
+
+    @PostMapping
+    public ResponseEntity<Void> createFlower(@RequestBody FlowerCreateRequest request) {
+        flowerService.createFlower(request);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
