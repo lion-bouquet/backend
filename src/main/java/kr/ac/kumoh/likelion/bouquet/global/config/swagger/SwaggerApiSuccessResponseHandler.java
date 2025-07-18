@@ -36,6 +36,7 @@ public class SwaggerApiSuccessResponseHandler {
         // 기본 응답 및 200 HTTP 응답 상태 코드 삭제
         String responseCode = String.valueOf(apiSuccessResponse.status().value());
         responses.remove("default");
+        responses.remove("200");
         responses.remove(responseCode);
 
         // 공통 응답 스키마 구성

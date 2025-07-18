@@ -32,7 +32,7 @@ public class OrderService {
     private final UserRepository userRepository;
 
     @Transactional
-    public OrderResponse save(Long userId, OrderRequest request) {
+    public OrderResponse createOrder(Long userId, OrderRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
@@ -50,7 +50,7 @@ public class OrderService {
             Stock stock = stockRepository.findById(item.stockId())
                     .orElseThrow(() -> new ServiceException(ErrorCode.ORDER_NOT_FOUND));
 
-            if (!Objects.equals(stock.getShop().getId(), stock.getShop().getId())) {
+            if (!Objects.equals(stock.getShop().getId(), shop.getId())) {
                 throw new ServiceException(ErrorCode.SHOP_ID_MISMATCH);
             }
 

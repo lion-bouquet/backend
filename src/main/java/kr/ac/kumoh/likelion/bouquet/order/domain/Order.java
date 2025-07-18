@@ -19,6 +19,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -43,18 +44,17 @@ public class Order {
 
     private LocalDateTime orderDate;
 
-    private Long totalPrice;
+    private Long totalPrice = 0L;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderDetail> orderDetails;
+    private List<OrderDetail> orderDetails = new ArrayList<>();
 
     @Builder
-    public Order(User user, FlowerShop shop, OrderStatus status, LocalDateTime orderDate, Long totalPrice) {
+    public Order(User user, FlowerShop shop, OrderStatus status, LocalDateTime orderDate) {
         this.user = user;
         this.shop = shop;
         this.status = status;
         this.orderDate = orderDate;
-        this.totalPrice = totalPrice;
     }
 
     public boolean isCancellable() {
