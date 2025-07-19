@@ -1,12 +1,12 @@
 package kr.ac.kumoh.likelion.bouquet.stock.dto;
 
-import kr.ac.kumoh.likelion.bouquet.flower.domain.Flower;
+import kr.ac.kumoh.likelion.bouquet.flower.dto.FlowerSummaryResponse;
 
 import java.time.LocalDateTime;
 
 public record StockResponse(
     Long stockId,
-    Flower flower,
+    FlowerSummaryResponse flower,
     Long price,
     Boolean status,
     LocalDateTime available

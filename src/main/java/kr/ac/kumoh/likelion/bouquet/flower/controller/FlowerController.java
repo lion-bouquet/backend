@@ -33,11 +33,11 @@ public class FlowerController {
             summary = "꽃 목록 조회",
             description = "꽃 목록을 조회합니다."
     )
-    @ApiResponse(content = @Content(schema = @Schema(implementation = ColorResponse.class)))
+    @ApiResponse(content = @Content(schema = @Schema(implementation = FlowerSummaryResponse.class)))
     @SwaggerApiResponses(
             success = @SwaggerApiSuccessResponse(
                     description = "꽃 목록 조회에 성공했습니다.",
-                    response = ColorResponse[].class
+                    response = FlowerSummaryResponse[].class
             )
     )
     @GetMapping
@@ -66,14 +66,30 @@ public class FlowerController {
     }
 
     @Operation(
+            summary = "추천 꽃 목록 조회",
+            description = "추천 꽃 목록을 조회합니다."
+    )
+    @ApiResponse(content = @Content(schema = @Schema(implementation = FlowerSummaryResponse.class)))
+    @SwaggerApiResponses(
+            success = @SwaggerApiSuccessResponse(
+                    description = "추천 꽃 목록 조회 성공했습니다.",
+                    response = FlowerSummaryResponse[].class
+            )
+    )
+    @GetMapping("/recommended")
+    public ResponseEntity<List<FlowerSummaryResponse>> getRecommendedFlowers(@RequestParam(value = "size", defaultValue = "6") int size) {
+        return ResponseEntity.ok(flowerService.findRandomFlowers(size));
+    }
+
+    @Operation(
             summary = "꽃에 어울리는 색상 목록 조회",
             description = "꽃에 어울리는 색상 목록을 조회합니다."
     )
-    @ApiResponse(content = @Content(schema = @Schema(implementation = FlowerDetailResponse.class)))
+    @ApiResponse(content = @Content(schema = @Schema(implementation = ColorResponse.class)))
     @SwaggerApiResponses(
             success = @SwaggerApiSuccessResponse(
                     description = "꽃에 어울리는 색상 목록 조회에 성공했습니다.",
-                    response = FlowerDetailResponse[].class
+                    response = ColorResponse[].class
             )
     )
     @GetMapping("/{flowerId}/matching-colors")

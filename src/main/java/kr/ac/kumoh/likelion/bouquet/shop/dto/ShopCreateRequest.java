@@ -36,7 +36,6 @@ public class ShopCreateRequest {
                 .province(province)
                 .city(city)
                 .introduction(introduction)
-                .rating(0.0)
                 .build();
 
         if (images != null) {

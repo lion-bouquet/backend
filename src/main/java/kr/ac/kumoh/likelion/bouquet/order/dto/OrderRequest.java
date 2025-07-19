@@ -4,7 +4,8 @@ import java.util.List;
 
 public record OrderRequest(
         Long shopId,
-        List<Item> items
+        List<Item> items,
+        String content
 ) {
     public record Item(
         Long stockId,

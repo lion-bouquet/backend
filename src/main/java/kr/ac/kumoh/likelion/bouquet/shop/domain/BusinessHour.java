@@ -13,9 +13,11 @@ import java.time.LocalTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BusinessHour {
+    // 개점 시간
     @Column(name = "open_time", nullable = false)
     private LocalTime open;
 
+    // 폐점 시간
     @Column(name = "close_time", nullable = false)
     private LocalTime close;
 

@@ -62,7 +62,6 @@ public class ShopService {
                 .province(request.getProvince())
                 .city(request.getCity())
                 .introduction(request.getIntroduction())
-                .rating(0.0)
                 .build();
 
         int order = 1;

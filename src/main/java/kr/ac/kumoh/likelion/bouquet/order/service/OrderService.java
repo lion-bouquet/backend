@@ -44,6 +44,7 @@ public class OrderService {
                 .shop(shop)
                 .status(OrderStatus.PENDING)
                 .orderDate(LocalDateTime.now())
+                .content(request.content())
                 .build();
 
         for (OrderRequest.Item item : request.items()) {

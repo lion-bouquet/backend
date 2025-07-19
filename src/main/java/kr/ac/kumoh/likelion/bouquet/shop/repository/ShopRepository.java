@@ -10,8 +10,9 @@ import java.util.List;
 
 @Repository
 public interface ShopRepository extends JpaRepository<FlowerShop, Long> {
+    @Query("SELECT s FROM FlowerShop s WHERE (:name IS NULL OR s.shopName LIKE %:name%)")
     List<FlowerShop> findByShopNameContaining(String name);
 
-    @Query(value = "SELECT * FROM flower_shop ORDER BY RAND() LIMIT :size", nativeQuery = true)
+    @Query(value = "SELECT * FROM shops ORDER BY RAND() LIMIT :size", nativeQuery = true)
     List<FlowerShop> findRandomShops(@Param("size") int size);
 }

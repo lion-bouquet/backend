@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "colors")
 public class Color {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

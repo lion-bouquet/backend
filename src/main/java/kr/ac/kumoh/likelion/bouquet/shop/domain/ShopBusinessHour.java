@@ -26,18 +26,22 @@ import java.time.DayOfWeek;
 @Table(name = "shop_business_hour",
         uniqueConstraints = @UniqueConstraint(columnNames = { "shop_id","day_of_week" }))
 public class ShopBusinessHour {
+    // 주요 키
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // 꽃집
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shop_id", nullable = false)
     private FlowerShop shop;
 
+    // 요일
     @Enumerated(EnumType.STRING)
     @Column(name = "day_of_week", nullable = false, length = 3)
     private DayOfWeek dayOfWeek;
 
+    // 개점 및 폐점 시간
     @Embedded
     private BusinessHour businessHour;
 

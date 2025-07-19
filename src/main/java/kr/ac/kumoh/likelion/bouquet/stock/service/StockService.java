@@ -1,6 +1,7 @@
 package kr.ac.kumoh.likelion.bouquet.stock.service;
 
 import kr.ac.kumoh.likelion.bouquet.flower.domain.Flower;
+import kr.ac.kumoh.likelion.bouquet.flower.dto.FlowerSummaryResponse;
 import kr.ac.kumoh.likelion.bouquet.flower.repository.FlowerRepository;
 import kr.ac.kumoh.likelion.bouquet.global.base.exception.ErrorCode;
 import kr.ac.kumoh.likelion.bouquet.global.base.exception.ServiceException;
@@ -32,7 +33,7 @@ public class StockService {
                     .orElseThrow(() -> new ServiceException(ErrorCode.FLOWER_NOT_FOUND));
 
             return new StockResponse(stock.getId(),
-                    flower,
+                    FlowerSummaryResponse.from(flower),
                     stock.getPrice(),
                     stock.getStatus(),
                     stock.getAvailableDateTime());

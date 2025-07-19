@@ -14,49 +14,72 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "shops")
 public class FlowerShop {
+    // 주요 키
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 50)
+    // 꽃집 관리용 아이디
+    @Column(name = "login_id", nullable = false, unique = true, length = 50)
     private String loginId;
 
-    @Column(nullable = false)
+    // 꽃집 관리용 비밀번호
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(nullable = false, unique = true)
+    // 이메일 주소
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false, length = 30)
+    // 꽃집 주인
+    @Column(name = "owner_name", nullable = false, length = 30)
     private String ownerName;
 
-    @Column(nullable = false, length = 100)
+    // 꽃집 이름
+    @Column(name = "name", nullable = false, length = 100)
     private String shopName;
 
-    @Column(nullable = false, length = 20)
+    // 꽃집 대표번호
+    @Column(name = "phone_number", nullable = false, length = 20)
     private String phoneNumber;
 
-    @Column(columnDefinition = "TEXT")
+    // 꽃집 대표 이미지
+    @Column(name = "image_url", length = 2048)
     private String shopImageUrl;
 
+    // 꽃집 소개 이미지
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("sortOrder ASC")
     private List<ShopImage> images = new ArrayList<>();
 
-    @Column(nullable = false)
+    // 특별시, 광역시, 특별자치시, 도
+    @Column(name = "province", nullable = false)
     private String province;
 
-    @Column(nullable = false)
+    // 시, 군, 구
+    @Column(name = "city", nullable = false)
     private String city;
 
-    @Column(columnDefinition = "TEXT")
+    // 소개 문구
+    @Lob
+    @Column(name = "introduction", length = 65535)
     private String introduction;
 
     private Double rating = 0.0;
 
     @Builder
-    public FlowerShop(String loginId, String password, String email, String ownerName, String shopName, String phoneNumber, String shopImageUrl, String province, String city, String introduction, Double rating) {
+    public FlowerShop(String loginId,
+                      String password,
+                      String email,
+                      String ownerName,
+                      String shopName,
+                      String phoneNumber,
+                      String shopImageUrl,
+                      String province,
+                      String city,
+                      String introduction) {
         this.loginId = loginId;
         this.password = password;
         this.email = email;

@@ -9,10 +9,12 @@ import kr.ac.kumoh.likelion.bouquet.flower.repository.FlowerRepository;
 import kr.ac.kumoh.likelion.bouquet.flower.repository.MatchingColorRepository;
 import kr.ac.kumoh.likelion.bouquet.global.base.exception.ErrorCode;
 import kr.ac.kumoh.likelion.bouquet.global.base.exception.ServiceException;
+import kr.ac.kumoh.likelion.bouquet.shop.dto.ShopSummaryResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +31,7 @@ public class FlowerService {
         List<Flower> flowers = flowerRepository.findFlowersByCriteria(colorId, month);
 
         return flowers.stream()
-                .map(this::mapToFlowerSummaryResponse)
+                .map(FlowerSummaryResponse::from)
                 .collect(Collectors.toList());
     }
 
@@ -40,7 +42,13 @@ public class FlowerService {
         // 해당 꽃과 매칭되는 색상 정보 조회
         List<ColorResponse> matchingColors = findMatchingColorsByFlowerId(flowerId);
 
-        return mapToFlowerDetailResponse(flower, matchingColors);
+        return FlowerDetailResponse.from(flower, matchingColors);
+    }
+
+    public List<FlowerSummaryResponse> findRandomFlowers(int size) {
+        return flowerRepository.findRandomFlowers(size).stream()
+                .map(FlowerSummaryResponse::from)
+                .collect(Collectors.toList());
     }
 
     public List<ColorResponse> findMatchingColorsByFlowerId(Long flowerId) {
@@ -58,36 +66,7 @@ public class FlowerService {
 
     @Transactional
     public void createFlower(FlowerCreateRequest request) {
-        Flower flower = request.toEntity(); // DTO를 Entity로 변환
+        Flower flower = request.toEntity();
         flowerRepository.save(flower);
-    }
-
-
-    private FlowerSummaryResponse mapToFlowerSummaryResponse(Flower flower) {
-        return FlowerSummaryResponse.builder()
-                .id(flower.getId())
-                .name(flower.getName())
-                .flowerLanguage(flower.getFlowerLanguage())
-                .imageUrl(flower.getImageUrl())
-                .build();
-    }
-
-    private FlowerDetailResponse mapToFlowerDetailResponse(Flower flower, List<ColorResponse> matchingColors) {
-        return FlowerDetailResponse.builder()
-                .id(flower.getId())
-                .name(flower.getName())
-                .description(flower.getDescription())
-                .flowerLanguage(flower.getFlowerLanguage())
-                .isPositive(flower.getIsPositive())
-                .matchingColors(matchingColors)
-                .seasonStart(flower.getSeasonStart())
-                .seasonEnd(flower.getSeasonEnd())
-                .size(flower.getSize())
-                .imageUrl(flower.getImageUrl())
-                .species(flower.getSpecies())
-                .origin(flower.getOrigin())
-                .scent(flower.getScent())
-                .lifespan(flower.getLifespan())
-                .build();
     }
 }
