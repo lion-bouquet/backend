@@ -92,7 +92,6 @@ public class OrderService {
         duration += 1L;
         order.accept(LocalDateTime.now().plusMinutes(30L).plusHours(duration));
 
-
         orderRepository.save(order);
         return OrderResponse.from(order);
     }
