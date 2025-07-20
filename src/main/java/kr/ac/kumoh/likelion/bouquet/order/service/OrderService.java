@@ -15,6 +15,7 @@ import kr.ac.kumoh.likelion.bouquet.stock.repository.StockRepository;
 import kr.ac.kumoh.likelion.bouquet.user.domain.User;
 import kr.ac.kumoh.likelion.bouquet.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.query.sqm.TemporalUnit;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,6 +48,7 @@ public class OrderService {
                 .content(request.content())
                 .build();
 
+        long duration = 0L;
         for (OrderRequest.Item item : request.items()) {
             Stock stock = stockRepository.findById(item.stockId())
                     .orElseThrow(() -> new ServiceException(ErrorCode.ORDER_NOT_FOUND));
@@ -70,7 +72,13 @@ public class OrderService {
 
             order.getOrderDetails().add(orderDetail);
             order.plusTotalPrice((long)unitPrice * item.quantity());
+
+            duration += item.quantity();
         }
+
+        // 주문이 들어오면 자동으로 수락하도록 함
+        duration /= 20L;
+        order.accept(LocalDateTime.now().plusHours(duration));
 
         orderRepository.save(order);
         return OrderResponse.from(order);

@@ -82,6 +82,11 @@ public class Order {
         this.content = content;
     }
 
+    public void accept(LocalDateTime availDate) {
+        this.status = OrderStatus.PENDING;
+        this.availDate = availDate;
+    }
+
     public boolean isCancellable() {
         return this.status == OrderStatus.WAIT;
     }
