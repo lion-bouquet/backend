@@ -141,6 +141,10 @@ public class OrderService {
             throw new ServiceException(ErrorCode.JWT_INVALID);
         }
 
+        if (!order.isCancellable()) {
+            throw new ServiceException(ErrorCode.ORDER_CANCEL_DENIED);
+        }
+
         order.cancel();
     }
 }

@@ -97,7 +97,7 @@ public class Order {
     }
 
     public boolean isCancellable() {
-        return this.status == OrderStatus.WAIT;
+        return this.status == OrderStatus.WAIT || this.status == OrderStatus.PENDING;
     }
 
     public void cancel() {

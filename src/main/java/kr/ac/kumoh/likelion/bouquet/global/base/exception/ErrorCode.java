@@ -34,6 +34,7 @@ public enum ErrorCode {
 
     // Order
     ORDER_NOT_FOUND(NOT_FOUND, "ORDER_001", "해당 주문을 찾을 수 없습니다."),
+    ORDER_CANCEL_DENIED(NOT_FOUND, "ORDER_002", "해당 주문을 취소할 수 없습니다."),
 
     // Stock
     SHOP_ID_MISMATCH(CONFLICT, "STOCK_001", "주문한 꽃집에서 판매하는 상품이 아닙니다."),
