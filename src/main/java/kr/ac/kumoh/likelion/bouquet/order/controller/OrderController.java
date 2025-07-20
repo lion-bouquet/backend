@@ -41,6 +41,7 @@ public class OrderController {
     @ApiResponse(content = @Content(schema = @Schema(implementation = OrderResponse.class)))
     @SwaggerApiResponses(
             success = @SwaggerApiSuccessResponse(
+                    status = HttpStatus.CREATED,
                     description = "주문에 성공했습니다.",
                     response = OrderResponse.class
             )
