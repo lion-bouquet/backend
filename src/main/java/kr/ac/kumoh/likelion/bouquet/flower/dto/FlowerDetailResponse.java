@@ -44,6 +44,7 @@ public class FlowerDetailResponse {
                 .origin(flower.getOrigin())
                 .scent(flower.getScent())
                 .lifespan(flower.getLifespan())
+                .careInfo(FlowerCareInfoResponse.from(flower.getCareInfo()))
                 .build();
     }
 }
