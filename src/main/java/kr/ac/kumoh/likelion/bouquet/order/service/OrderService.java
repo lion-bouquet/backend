@@ -59,7 +59,7 @@ public class OrderService {
                 .content(request.request())
                 .build();
 
-        long duration = 1L;
+        long duration = 0L;
         for (OrderRequest.Item item : request.items()) {
             Stock stock = stockRepository.findById(item.stockId())
                     .orElseThrow(() -> new ServiceException(ErrorCode.ORDER_NOT_FOUND));
@@ -89,8 +89,8 @@ public class OrderService {
 
         // 주문이 들어오면 자동으로 수락하도록 함
         duration /= 10L;
-        log.info("개수 / 10 = {}, 픽업 가능 시각: {}", duration, LocalDateTime.now().plusMinutes(30L).plusHours(duration));
-        order.accept(LocalDateTime.now().plusHours(duration));
+        duration += 1L;
+        order.accept(LocalDateTime.now().plusMinutes(30L).plusHours(duration));
 
 
         orderRepository.save(order);
