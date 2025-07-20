@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public record OrderResponse(
-        Long orderId,
+        String orderCode,
         LocalDateTime orderDate,
         Long totalPrice,
         String status,
@@ -18,7 +18,7 @@ public record OrderResponse(
         List<OrderDetailResponse> stocks
 ) {
     public static OrderResponse from(Order order) {
-        return new OrderResponse(order.getId(),
+        return new OrderResponse(order.getOrderCode(),
                 order.getOrderDate(),
                 order.getTotalPrice(),
                 order.getStatus().toString(),

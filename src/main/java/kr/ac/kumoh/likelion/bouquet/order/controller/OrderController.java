@@ -79,10 +79,10 @@ public class OrderController {
                     response = OrderResponse.class
             )
     )
-    @GetMapping("/{id}")
+    @GetMapping("/{code}")
     public ResponseEntity<ResponseBody<OrderResponse>> getOrder(@CurrentUserId Long userId,
-                                                                @PathVariable("id") Long orderId) {
-        return ResponseEntity.ok(ResponseUtils.createSuccessResponse(orderService.getOrder(userId, orderId)));
+                                                                @PathVariable("code") String orderCode) {
+        return ResponseEntity.ok(ResponseUtils.createSuccessResponse(orderService.getOrder(userId, orderCode)));
     }
 
     @Operation(

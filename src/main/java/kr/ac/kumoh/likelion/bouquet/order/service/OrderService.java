@@ -19,9 +19,12 @@ import org.hibernate.query.sqm.TemporalUnit;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +35,9 @@ public class OrderService {
     private final StockRepository stockRepository;
     private final UserRepository userRepository;
 
+    private static final String CHARACTERS = "0123456789";
+    private static final int LENGTH = 4;
+
     @Transactional
     public OrderResponse createOrder(Long userId, OrderRequest request) {
         User user = userRepository.findById(userId)
@@ -40,7 +46,9 @@ public class OrderService {
         FlowerShop shop = shopRepository.findById(request.shopId())
                 .orElseThrow(() -> new ServiceException(ErrorCode.SHOP_NOT_FOUND));
 
+        String orderCode = generateOrderCode();
         Order order = Order.builder()
+                .orderCode(orderCode)
                 .user(user)
                 .shop(shop)
                 .status(OrderStatus.PENDING)
@@ -85,8 +93,29 @@ public class OrderService {
         return OrderResponse.from(order);
     }
 
-    public OrderResponse getOrder(Long userId, Long orderId) {
-        Order order = orderRepository.findById(orderId)
+    private String generateOrderCode() {
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String formattedDate = currentDate.format(formatter);
+
+        String randomStr = "";
+        Random random = new Random();
+        do {
+            // 숫자, 알파벳 대소문자로 이루어진 5자리 랜덤 문자열 생성
+            StringBuilder sb = new StringBuilder(LENGTH);
+            for (int i = 0; i < LENGTH; i++) {
+                int randomIndex = random.nextInt(CHARACTERS.length());
+                char randomChar = CHARACTERS.charAt(randomIndex);
+                sb.append(randomChar);
+                randomStr = sb.toString();
+            }
+        } while (orderRepository.existsByOrderCode("BB-" + formattedDate + "-" + randomStr));
+
+        return "BB-" + formattedDate + "-" + randomStr;
+    }
+
+    public OrderResponse getOrder(Long userId, String orderCode) {
+        Order order = orderRepository.findByOrderCode(orderCode)
                 .orElseThrow(() -> new ServiceException(ErrorCode.ORDER_NOT_FOUND));
 
         if (!Objects.equals(order.getUser().getId(), userId)) {

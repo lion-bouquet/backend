@@ -37,6 +37,10 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // 주문 번호
+    @Column(unique = true)
+    private String orderCode;
+
     // 고객
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -77,7 +81,8 @@ public class Order {
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
     @Builder
-    public Order(User user, FlowerShop shop, OrderStatus status, LocalDateTime orderDate, String phoneNumber, String content) {
+    public Order(String orderCode, User user, FlowerShop shop, OrderStatus status, LocalDateTime orderDate, String phoneNumber, String content) {
+        this.orderCode = orderCode;
         this.user = user;
         this.shop = shop;
         this.status = status;
