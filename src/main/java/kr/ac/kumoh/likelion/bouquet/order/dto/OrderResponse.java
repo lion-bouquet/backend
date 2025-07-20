@@ -13,7 +13,8 @@ public record OrderResponse(
         String status,
         ShopSummaryResponse shop,
         LocalDateTime pickUpAvailableTime,
-        String content,
+        String phone,
+        String request,
         List<OrderDetailResponse> stocks
 ) {
     public static OrderResponse from(Order order) {
@@ -23,6 +24,7 @@ public record OrderResponse(
                 order.getStatus().toString(),
                 ShopSummaryResponse.from(order.getShop(), LocalDateTime.now()),
                 order.getAvailDate(),
+                order.getPhoneNumber(),
                 order.getContent(),
                 order.getOrderDetails().stream().map(OrderDetailResponse::from).toList());
     }

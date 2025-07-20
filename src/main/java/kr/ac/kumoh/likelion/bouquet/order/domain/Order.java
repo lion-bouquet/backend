@@ -60,6 +60,9 @@ public class Order {
     // 픽업 가능 시각
     @Column(name = "avail_date")
     private LocalDateTime availDate;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
     
     // 주문 요청
     @Column(name = "content", length = 500)
@@ -74,11 +77,12 @@ public class Order {
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
     @Builder
-    public Order(User user, FlowerShop shop, OrderStatus status, LocalDateTime orderDate, String content) {
+    public Order(User user, FlowerShop shop, OrderStatus status, LocalDateTime orderDate, String phoneNumber, String content) {
         this.user = user;
         this.shop = shop;
         this.status = status;
         this.orderDate = orderDate;
+        this.phoneNumber = phoneNumber;
         this.content = content;
     }
 

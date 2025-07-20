@@ -45,7 +45,8 @@ public class OrderService {
                 .shop(shop)
                 .status(OrderStatus.PENDING)
                 .orderDate(LocalDateTime.now())
-                .content(request.content())
+                .phoneNumber(request.phone())
+                .content(request.request())
                 .build();
 
         long duration = 0L;
