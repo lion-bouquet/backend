@@ -36,11 +36,11 @@ public class ReviewController {
             summary = "리뷰 작성",
             description = "꽃집에 대한 리뷰를 작성합니다."
     )
-    @ApiResponse(content = @Content(schema = @Schema(implementation = OrderResponse.class)))
+    @ApiResponse(content = @Content(schema = @Schema(implementation = ReviewResponse.class)))
     @SwaggerApiResponses(
             success = @SwaggerApiSuccessResponse(
                     description = "꽃집에 대한 리뷰 작성을 성공했습니다.",
-                    response = OrderResponse.class
+                    response = ReviewResponse.class
             )
     )
     @PostMapping("/shops/{shopId}/reviews")
@@ -59,7 +59,7 @@ public class ReviewController {
     @SwaggerApiResponses(
             success = @SwaggerApiSuccessResponse(
                     description = "꽃집에 대한 리뷰 조회에 성공했습니다.",
-                    response = OrderResponse.class
+                    response = OrderResponse[].class
             )
     )
     @GetMapping("/shops/{shopId}/reviews")
